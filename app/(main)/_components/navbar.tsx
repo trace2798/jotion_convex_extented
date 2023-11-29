@@ -8,7 +8,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 
 import { ModeToggle } from "@/components/mode-toggle";
-import ChatSheet from "@/components/chat-sheet";
+// import ChatSheet from "@/components/chat-sheet";
 import { useUser } from "@clerk/clerk-react";
 import { Banner } from "./banner";
 import { Menu } from "./menu";
@@ -61,7 +61,7 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
               isPublic={document.isPublic}
               isEditable={document.isEditable}
             />
-            <ChatSheet channelName={document._id} creatorId={document.userId} />
+            {/* <ChatSheet channelName={document._id} creatorId={document.userId} /> */}
           </div>
         </div>
       </nav>
