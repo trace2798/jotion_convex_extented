@@ -10,9 +10,9 @@ const SpacesContext = React.createContext<Space | undefined>(undefined);
 
 // Define the SpaceContextProvider component that takes an example prop and children prop
 const SpaceContextProvider: React.FC<{
-  example: string;
+
   children: React.ReactNode;
-}> = ({ example, children }) => {
+}> = ({  children }) => {
   // Create a state for the space instance with a setter function
   const [space, setSpace] = React.useState<Space | undefined>(undefined);
   // Get the Ably client from the hook
@@ -21,7 +21,7 @@ const SpaceContextProvider: React.FC<{
   // Create a memoized instance of Spaces using the Ably client
   const spaces = React.useMemo(() => {
     return new Spaces(client);
-  }, [example]);
+  }, [client]);
 
   // Use an effect hook to get and set the space instance when the spaces instance changes
   React.useEffect(() => {
