@@ -10,11 +10,8 @@ const font = Poppins({
 
 export const Logo = () => {
   return (
-    <div className="hidden w-[90px] md:flex items-center gap-x-2">
-      <p className={cn("font-switzerSemibold", font.className)}>
-        {" "}
-        Jotion Ext{" "}
-      </p>
+    <div className="hidden w-[100px] md:flex items-center gap-x-2">
+      <p className={cn("font-switzerSemibold", font.className)}> Jotion Ext </p>
     </div>
   );
 };
