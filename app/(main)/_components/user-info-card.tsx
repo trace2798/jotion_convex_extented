@@ -1,11 +1,12 @@
 "use client";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { useUser } from "@clerk/clerk-react";
-import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
+// import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { FC } from "react";
 
 interface UserInfoCardProps {}
