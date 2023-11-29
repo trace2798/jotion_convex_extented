@@ -13,6 +13,7 @@ import { useUser } from "@clerk/clerk-react";
 import { Banner } from "./banner";
 import { Menu } from "./menu";
 import { Title } from "./title";
+import ChatSheet from "@/components/chat-sheet";
 
 interface NavbarProps {
   isCollapsed: boolean;
@@ -61,7 +62,7 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
               isPublic={document.isPublic}
               isEditable={document.isEditable}
             />
-            {/* <ChatSheet channelName={document._id} creatorId={document.userId} /> */}
+            <ChatSheet channelName={document._id} creatorId={document.userId} />
           </div>
         </div>
       </nav>

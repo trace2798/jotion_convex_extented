@@ -1,4 +1,3 @@
-// import { AblyClientProvider } from "@/components/ably-provider";
 import { ConvexClientProvider } from "@/components/convex-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { EdgeStoreProvider } from "@/lib/edgestore";
@@ -21,7 +20,6 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-switzerRegular">
         <ConvexClientProvider>
-          {/* <AblyClientProvider> */}
           <EdgeStoreProvider>
             <ThemeProvider
               attribute="class"
@@ -35,7 +33,6 @@ export default function RootLayout({
               {children}
             </ThemeProvider>
           </EdgeStoreProvider>
-          {/* </AblyClientProvider> */}
         </ConvexClientProvider>
       </body>
     </html>
