@@ -17,4 +17,12 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_user_parent", ["userId", "parentDocument"]),
+
+  chats: defineTable({
+    documentId: v.id("documents"),
+    userId: v.string(),
+    message: v.string(),
+  })
+    .index("by_document", ["documentId"])
+    .index("by_user", ["userId"]),
 });

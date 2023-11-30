@@ -147,8 +147,6 @@ export const toggleEditibility = mutation({
   },
 });
 
-
-
 export const getSidebarPublic = query({
   args: {
     parentDocument: v.optional(v.id("documents")),
@@ -481,5 +479,52 @@ export const removeCoverImage = mutation({
     });
 
     return document;
+  },
+});
+
+export const sendMessage = mutation({
+  args: {
+    documentId: v.id("documents"),
+    message: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const userId = identity.subject;
+
+    const chat = await ctx.db.insert("chats", {
+      documentId: args.documentId,
+      userId,
+      message: args.message,
+    });
+
+    return chat;
+  },
+});
+
+export const getMessages = query({
+  args: {
+    documentId: v.id("documents"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const userId = identity.subject;
+
+    const messages = await ctx.db
+      .query("chats")
+      .filter((q) => q.eq(q.field("documentId"), args.documentId))
+      .order("desc")
+      .collect();
+
+    return messages;
   },
 });
