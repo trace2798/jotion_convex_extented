@@ -12,28 +12,15 @@ import { Id } from "@/convex/_generated/dataModel";
 interface ChatHomeMessagesProps {
   message: HomeMessage;
   isOwnMessage: boolean;
-  // deleteMessage: (mid: string) => () => void;
 }
 
 const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
   message,
   isOwnMessage,
-  // deleteMessage,
 }) => {
-  // const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-  //   event.stopPropagation();
-  //   if (!_id) return;
-  //   const promise = archive({ id }).then(() => router.push("/documents"));
-
-  //   toast.promise(promise, {
-  //     loading: "Moving to trash...",
-  //     success: "Note moved to trash!",
-  //     error: "Failed to archive note.",
-  //   });
-  // };
+ 
   const archiveMessage = useMutation(api.documents.archiveHomeMessage);
   const deleteMessage = () => {
-    // event.stopPropagation();
     if (!message._id) return;
     const promise = archiveMessage({ id: message._id as Id<"homeChat"> });
 
@@ -66,7 +53,6 @@ const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
             {message.isArchived
               ? "This message has been deleted."
               : message.message}
-            {/* {message.message} */}
           </p>
           <p
             className={`${

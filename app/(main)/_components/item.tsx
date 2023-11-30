@@ -1,30 +1,27 @@
 "use client";
 
+import { useUser } from "@clerk/clerk-react";
+import { useMutation } from "convex/react";
 import {
-  ChevronDown,
-  ChevronRight,
   Globe,
   LucideIcon,
   MoreHorizontal,
-  Plus,
-  Trash,
+  Trash
 } from "lucide-react";
-import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useUser } from "@clerk/clerk-react";
 
-import { Id } from "@/convex/_generated/dataModel";
-import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
-import { api } from "@/convex/_generated/api";
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import { cn } from "@/lib/utils";
 
 interface ItemProps {
   id?: Id<"documents">;

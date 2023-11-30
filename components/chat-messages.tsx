@@ -2,7 +2,6 @@
 import { Message } from "@/utils/helpers";
 import { FC } from "react";
 import { Trash } from "lucide-react";
-
 import { format } from "date-fns";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
@@ -14,18 +13,15 @@ interface ChatMessagesProps {
   message: Message;
   isOwnMessage: boolean;
   isModerator: boolean;
-  // deleteMessage: (mid: string) => () => void;
 }
 
 const ChatMessages: FC<ChatMessagesProps> = ({
   message,
   isOwnMessage,
   isModerator,
-  // deleteMessage,
 }) => {
   const archiveMessage = useMutation(api.documents.archiveDocumentMessage);
   const deleteMessage = () => {
-    // event.stopPropagation();
     if (!message._id) return;
     const promise = archiveMessage({ id: message._id as Id<"chats"> });
 
@@ -56,9 +52,6 @@ const ChatMessages: FC<ChatMessagesProps> = ({
             {message.userName} {isOwnMessage ? "(you)" : ""}
           </p>
           <p className="text-white">
-            {/* {message.deleted
-              ? "This message has been deleted."
-              : message.content} */}
             {message.isArchived
               ? "This message has been deleted."
               : message.message}
@@ -81,7 +74,6 @@ const ChatMessages: FC<ChatMessagesProps> = ({
           <div className="flex justify-start">
             <Button
               className="cursor-pointer -bottom-7 p-0 text-right right-2 transition"
-              // disabled={!isOwnMessage}
               onClick={deleteMessage}
               aria-label="Trash button to delete Message. Mod of the chat can delete all the messages."
               variant="ghost"
