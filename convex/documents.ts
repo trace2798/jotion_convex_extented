@@ -502,6 +502,7 @@ export const sendMessage = mutation({
       userId,
       message: args.message,
       userName: args.userName,
+      isArchived: false,
     });
 
     return chat;
@@ -549,6 +550,7 @@ export const sendHomeMessage = mutation({
       userId,
       message: args.message,
       userName: args.userName,
+      isArchived: false,
     });
 
     return chat;
@@ -569,5 +571,33 @@ export const getHomeMessages = query({
     const messages = await ctx.db.query("homeChat").order("asc").collect();
 
     return messages;
+  },
+});
+
+export const archiveHomeMessage = mutation({
+  args: { id: v.id("homeChat") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const userId = identity.subject;
+
+    const existingHomeMessage = await ctx.db.get(args.id);
+
+    if (!existingHomeMessage) {
+      throw new Error("Not found");
+    }
+
+    if (existingHomeMessage.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    const message = await ctx.db.patch(args.id, {
+      isArchived: true,
+    });
+    return message;
   },
 });

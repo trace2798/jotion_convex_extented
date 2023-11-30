@@ -54,6 +54,7 @@ export type HomeMessage = {
   message: string;
   userId: string;
   userName: string;
+  isArchived: boolean;
 };
 
 export const getInitials = (name: string) => {

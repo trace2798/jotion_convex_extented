@@ -23,6 +23,7 @@ export default defineSchema({
     userId: v.string(),
     userName: v.string(),
     message: v.string(),
+    isArchived: v.boolean(),
   })
     .index("by_document", ["documentId"])
     .index("by_user", ["userId"]),
@@ -31,5 +32,6 @@ export default defineSchema({
     userId: v.string(),
     userName: v.string(),
     message: v.string(),
+    isArchived: v.boolean(),
   }).index("by_user", ["userId"]),
 });

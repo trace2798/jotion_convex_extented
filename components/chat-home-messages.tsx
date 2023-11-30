@@ -4,6 +4,10 @@ import { FC } from "react";
 import { Trash } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface ChatHomeMessagesProps {
   message: HomeMessage;
@@ -16,10 +20,33 @@ const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
   isOwnMessage,
   // deleteMessage,
 }) => {
+  // const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  //   event.stopPropagation();
+  //   if (!_id) return;
+  //   const promise = archive({ id }).then(() => router.push("/documents"));
+
+  //   toast.promise(promise, {
+  //     loading: "Moving to trash...",
+  //     success: "Note moved to trash!",
+  //     error: "Failed to archive note.",
+  //   });
+  // };
+  const archiveMessage = useMutation(api.documents.archiveHomeMessage);
+  const deleteMessage = () => {
+    // event.stopPropagation();
+    if (!message._id) return;
+    const promise = archiveMessage({ id: message._id as Id<"homeChat"> });
+
+    toast.promise(promise, {
+      loading: "Moving to trash...",
+      success: "Note moved to trash!",
+      error: "Failed to archive note.",
+    });
+  };
   return (
     <>
       <div
-        className={`mb-12 mt-5  items-baseline relative ${
+        className={`mb-3 mt-5  items-baseline relative ${
           isOwnMessage ? "flex flex-col justify-end" : "flex-row"
         }`}
       >
@@ -35,7 +62,10 @@ const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
           >
             {message.userName} {isOwnMessage ? "(you)" : ""}
           </p>
-          <p className="text-white">{message.message}</p>
+          <p className="text-white">
+            {message.isArchived ? "This message has been deleted." : message.message}
+            {/* {message.message} */}
+            </p>
           <p
             className={`${
               isOwnMessage ? "text-blue-100" : "text-slate-400"
@@ -50,7 +80,7 @@ const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
             <Button
               className="cursor-pointer -bottom-7 p-0 text-right right-2 transition"
               // disabled={!isOwnMessage}
-              // onClick={deleteMessage(message.id)}
+              onClick={deleteMessage}
               aria-label="Trash button to delete Message. Mod of the chat can delete all the messages."
               variant="ghost"
             >
