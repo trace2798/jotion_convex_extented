@@ -48,6 +48,14 @@ export type Message = {
   userName: string;
 };
 
+export type HomeMessage = {
+  _creationTime: number;
+  _id: string;
+  message: string;
+  userId: string;
+  userName: string;
+};
+
 export const getInitials = (name: string) => {
   const words = name.split(" ");
   if (words.length === 1) {

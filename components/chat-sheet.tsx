@@ -2,11 +2,9 @@
 import { cn } from "@/lib/utils";
 import { Message } from "@/utils/helpers";
 import { useUser } from "@clerk/clerk-react";
-import { Types } from "ably";
-import { useChannel } from "ably/react";
 import { redirect, useParams } from "next/navigation";
 import { ElementRef, useEffect, useReducer, useRef, useState } from "react";
-import ChatMessages from "./ably-messages";
+import ChatMessages from "./chat-messages";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
@@ -17,13 +15,7 @@ import { toast } from "sonner";
 import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 
-const ChatSheet = ({
-  channelName,
-  creatorId,
-}: {
-  channelName: string;
-  creatorId: string;
-}) => {
+const ChatSheet = ({ creatorId }: { creatorId: string }) => {
   const { user } = useUser();
   if (!user) {
     redirect("/");

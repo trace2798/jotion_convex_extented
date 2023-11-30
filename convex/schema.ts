@@ -26,4 +26,10 @@ export default defineSchema({
   })
     .index("by_document", ["documentId"])
     .index("by_user", ["userId"]),
+
+  homeChat: defineTable({
+    userId: v.string(),
+    userName: v.string(),
+    message: v.string(),
+  }).index("by_user", ["userId"]),
 });

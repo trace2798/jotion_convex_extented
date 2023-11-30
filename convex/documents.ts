@@ -530,3 +530,44 @@ export const getMessages = query({
     return messages;
   },
 });
+
+export const sendHomeMessage = mutation({
+  args: {
+    message: v.string(),
+    userName: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const userId = identity.subject;
+
+    const chat = await ctx.db.insert("homeChat", {
+      userId,
+      message: args.message,
+      userName: args.userName,
+    });
+
+    return chat;
+  },
+});
+
+export const getHomeMessages = query({
+  args: {},
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const userId = identity.subject;
+
+    const messages = await ctx.db.query("homeChat").order("asc").collect();
+
+    return messages;
+  },
+});

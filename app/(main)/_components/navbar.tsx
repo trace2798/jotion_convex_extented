@@ -62,7 +62,7 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
               isPublic={document.isPublic}
               isEditable={document.isEditable}
             />
-            <ChatSheet channelName={document._id} creatorId={document.userId} />
+            <ChatSheet creatorId={document.userId} />
           </div>
         </div>
       </nav>

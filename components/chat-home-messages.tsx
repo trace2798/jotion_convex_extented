@@ -1,18 +1,19 @@
 "use client";
-import { Message } from "@/utils/helpers";
+import { HomeMessage } from "@/utils/helpers";
 import { FC } from "react";
 import { Trash } from "lucide-react";
+import { format } from "date-fns";
 
-interface AblyHomeMessagesProps {
-  message: Message;
+interface ChatHomeMessagesProps {
+  message: HomeMessage;
   isOwnMessage: boolean;
-  deleteMessage: (mid: string) => () => void;
+  // deleteMessage: (mid: string) => () => void;
 }
 
-const AblyHomeMessages: FC<AblyHomeMessagesProps> = ({
+const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
   message,
   isOwnMessage,
-  deleteMessage,
+  // deleteMessage,
 }) => {
   return (
     <>
@@ -31,22 +32,19 @@ const AblyHomeMessages: FC<AblyHomeMessagesProps> = ({
               isOwnMessage ? "text-muted" : "text-slate-400"
             } font-bold`}
           >
-            {message.author} {isOwnMessage ? "(you)" : ""}
+            {message.userName} {isOwnMessage ? "(you)" : ""}
           </p>
+          <p className="text-white">{message.message}</p>
           <p
-            className={`text-base text-slate-600 ${
-              message.deleted
-                ? "italic text-white dark:text-neutral-200"
-                : "text-white"
-            }`}
+            className={`${
+              isOwnMessage ? "text-blue-100" : "text-slate-400"
+            } font-switzerLight mt-3`}
           >
-            {message.deleted
-              ? "This message has been deleted."
-              : message.content}
+            {format(new Date(message._creationTime), "iiii, do MMMM, yyyy p")}
           </p>
         </div>
         <div className="flex flex-col justify-between">
-          <button
+          {/* <button
             className={` cursor-pointer disabled:cursor-default absolute -bottom-7 p-0 ${
               isOwnMessage ? "text-right right-2" : "left-2"
             } ${!isOwnMessage || message.deleted ? "hidden" : ""} transition`}
@@ -56,11 +54,11 @@ const AblyHomeMessages: FC<AblyHomeMessagesProps> = ({
             // variant="ghost"
           >
             <Trash className="w-4 h-4 hover:text-red-700 text-slate-950 dark:text-neutral-200" />
-          </button>
+          </button> */}
         </div>
       </div>
     </>
   );
 };
 
-export default AblyHomeMessages;
+export default ChatHomeMessages;
