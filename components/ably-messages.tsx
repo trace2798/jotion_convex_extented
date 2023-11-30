@@ -72,6 +72,8 @@ import { Message } from "@/utils/helpers";
 import { FC } from "react";
 import { Trash } from "lucide-react";
 
+import { format } from "date-fns";
+
 interface ChatMessagesProps {
   message: Message;
   isOwnMessage: boolean;
@@ -109,6 +111,12 @@ const ChatMessages: FC<ChatMessagesProps> = ({
               ? "This message has been deleted."
               : message.content} */}
             {message.message}
+          </p>
+          <p className="text-muted mt-3">
+            {/* {message.deleted
+              ? "This message has been deleted."
+              : message.content} */}
+            {format(new Date(message._creationTime), "iiii, do MMMM, yyyy p")}
           </p>
         </div>
         <div className="flex flex-col justify-between">
