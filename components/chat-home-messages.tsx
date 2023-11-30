@@ -63,15 +63,22 @@ const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
             {message.userName} {isOwnMessage ? "(you)" : ""}
           </p>
           <p className="text-white">
-            {message.isArchived ? "This message has been deleted." : message.message}
+            {message.isArchived
+              ? "This message has been deleted."
+              : message.message}
             {/* {message.message} */}
-            </p>
+          </p>
           <p
             className={`${
               isOwnMessage ? "text-blue-100" : "text-slate-400"
             } font-switzerLight mt-3`}
           >
-            {format(new Date(message._creationTime), "iiii, do MMMM, yyyy p")}
+            {message.isArchived
+              ? ""
+              : format(
+                  new Date(message._creationTime),
+                  "iiii, do MMMM, yyyy p"
+                )}
           </p>
         </div>
 
@@ -84,7 +91,7 @@ const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
               aria-label="Trash button to delete Message. Mod of the chat can delete all the messages."
               variant="ghost"
             >
-              <Trash className="w-4 h-4 hover:text-red-700 text-slate-950 dark:text-neutral-200" />
+              <Trash className="w-4 h-4 mx-4 hover:text-red-700 text-slate-950 dark:text-neutral-200" />
             </Button>
           </div>
         )}

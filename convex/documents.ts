@@ -601,3 +601,35 @@ export const archiveHomeMessage = mutation({
     return message;
   },
 });
+
+export const archiveDocumentMessage = mutation({
+  args: { id: v.id("chats") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const userId = identity.subject;
+
+    const existingMessage = await ctx.db.get(args.id);
+
+    if (!existingMessage) {
+      throw new Error("Not found");
+    }
+
+    const document = await ctx.db.get(existingMessage.documentId);
+    if (!document) {
+      throw new Error("Document not found");
+    }
+    if (existingMessage.userId !== userId && document.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    const message = await ctx.db.patch(args.id, {
+      isArchived: true,
+    });
+    return message;
+  },
+});

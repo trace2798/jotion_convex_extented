@@ -5,6 +5,10 @@ import { Trash } from "lucide-react";
 
 import { format } from "date-fns";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface ChatMessagesProps {
   message: Message;
@@ -19,6 +23,19 @@ const ChatMessages: FC<ChatMessagesProps> = ({
   isModerator,
   // deleteMessage,
 }) => {
+  const archiveMessage = useMutation(api.documents.archiveDocumentMessage);
+  const deleteMessage = () => {
+    // event.stopPropagation();
+    if (!message._id) return;
+    const promise = archiveMessage({ id: message._id as Id<"chats"> });
+
+    toast.promise(promise, {
+      loading: "Moving to trash...",
+      success: "Message deleted!",
+      error: "Failed to delete message.",
+    });
+  };
+
   return (
     <>
       <div
@@ -42,26 +59,34 @@ const ChatMessages: FC<ChatMessagesProps> = ({
             {/* {message.deleted
               ? "This message has been deleted."
               : message.content} */}
-            {message.message}
+            {message.isArchived
+              ? "This message has been deleted."
+              : message.message}
           </p>
           <p
             className={`${
               isOwnMessage ? "text-blue-100" : "text-slate-400"
             } font-switzerLight mt-3`}
           >
-            {format(new Date(message._creationTime), "iiii, do MMMM, yyyy p")}
+            {message.isArchived
+              ? ""
+              : format(
+                  new Date(message._creationTime),
+                  "iiii, do MMMM, yyyy p"
+                )}
           </p>
         </div>
 
         {(isOwnMessage || isModerator) && (
-          <div className="flex flex-col justify-between">
+          <div className="flex justify-start">
             <Button
-              className={`cursor-pointer -bottom-7 p-0 text-right right-2 transition`}
-              // onClick={deleteMessage(message.id)}
+              className="cursor-pointer -bottom-7 p-0 text-right right-2 transition"
+              // disabled={!isOwnMessage}
+              onClick={deleteMessage}
               aria-label="Trash button to delete Message. Mod of the chat can delete all the messages."
               variant="ghost"
             >
-              <Trash className="w-4 h-4 hover:text-red-700 text-slate-950 dark:text-neutral-200" />
+              <Trash className="w-4 h-4 mx-4 hover:text-red-700 text-slate-950 dark:text-neutral-200" />
             </Button>
           </div>
         )}
