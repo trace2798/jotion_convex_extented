@@ -486,7 +486,7 @@ export const sendMessage = mutation({
   args: {
     documentId: v.id("documents"),
     message: v.string(),
-    userName: v.optional(v.string()),
+    userName: v.string(),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();

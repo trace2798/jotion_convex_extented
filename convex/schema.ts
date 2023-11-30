@@ -21,7 +21,7 @@ export default defineSchema({
   chats: defineTable({
     documentId: v.id("documents"),
     userId: v.string(),
-    userName: v.optional(v.string()),
+    userName: v.string(),
     message: v.string(),
   })
     .index("by_document", ["documentId"])

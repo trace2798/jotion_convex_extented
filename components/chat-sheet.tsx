@@ -54,6 +54,7 @@ const ChatSheet = ({
       success: "Message sent",
       error: "Failed to Sent Message.",
     });
+    setMessage("");
   };
 
   const messages = useQuery(api.documents.getMessages, {
@@ -103,7 +104,7 @@ const ChatSheet = ({
             }
           )}
         >
-          {!messages ? (
+          {messages === undefined || messages.length === 0 ? (
             <div className="w-full h-24 flex text-center justify-center items-center">
               <h1>Oops. Looks like you have not started chatting.</h1>
             </div>

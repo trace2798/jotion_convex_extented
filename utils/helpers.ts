@@ -45,7 +45,7 @@ export type Message = {
   documentId: string;
   message: string;
   userId: string;
-  userName?: string;
+  userName: string;
 };
 
 export const getInitials = (name: string) => {
