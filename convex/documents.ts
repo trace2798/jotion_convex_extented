@@ -486,6 +486,7 @@ export const sendMessage = mutation({
   args: {
     documentId: v.id("documents"),
     message: v.string(),
+    userName: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -500,6 +501,7 @@ export const sendMessage = mutation({
       documentId: args.documentId,
       userId,
       message: args.message,
+      userName: args.userName,
     });
 
     return chat;
@@ -522,7 +524,7 @@ export const getMessages = query({
     const messages = await ctx.db
       .query("chats")
       .filter((q) => q.eq(q.field("documentId"), args.documentId))
-      .order("desc")
+      .order("asc")
       .collect();
 
     return messages;

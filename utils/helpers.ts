@@ -40,16 +40,16 @@ export type Member = Omit<SpaceMember, "profileData"> & {
 };
 
 export type Message = {
-  author: string;
-  content: string;
-  timestamp: Date;
-  id: string;
-  deleted?: boolean;
+  _creationTime: number;
+  _id: string;
+  documentId: string;
+  message: string;
+  userId: string;
+  userName?: string;
 };
 
-
 export const getInitials = (name: string) => {
-  const words = name.split(' ');
+  const words = name.split(" ");
   if (words.length === 1) {
     return words[0].charAt(0);
   }

@@ -6,13 +6,13 @@ import { Types } from "ably";
 import { useChannel } from "ably/react";
 import { redirect, useParams } from "next/navigation";
 import { ElementRef, useEffect, useReducer, useRef, useState } from "react";
-import AblyMessages from "./ably-messages";
+import ChatMessages from "./ably-messages";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { toast } from "sonner";
 import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
@@ -44,17 +44,22 @@ const ChatSheet = ({
     const promise = sendAMessage({
       documentId: params.documentId as Id<"documents">,
       message,
-      // userId: user.id,
+      userName: user.fullName ?? "Anonymous",
     }).catch((error) => {
       console.error("Failed to send message:", error);
     });
 
     toast.promise(promise, {
-      loading: "Sending a new message...",
+      loading: "Sending your message...",
       success: "Message sent",
       error: "Failed to Sent Message.",
     });
   };
+
+  const messages = useQuery(api.documents.getMessages, {
+    documentId: params.documentId as Id<"documents">,
+  });
+  console.log(messages, "MESSAGES");
 
   return (
     <Sheet>
@@ -98,22 +103,22 @@ const ChatSheet = ({
             }
           )}
         >
-          {/* {messages.length === 0 ? (
+          {!messages ? (
             <div className="w-full h-24 flex text-center justify-center items-center">
               <h1>Oops. Looks like you have not started chatting.</h1>
             </div>
           ) : (
             messages.map((message, index) => (
-              <AblyMessages
+              <ChatMessages
                 message={message}
-                isOwnMessage={message.author === author}
-                deleteMessage={deleteMessage}
+                isOwnMessage={message.userName === author}
+                // deleteMessage={deleteMessage}
                 isModerator={isModerator}
                 key={index}
               />
+              // <h1>{message.message}</h1>
             ))
-          )} */}
-          <h1>Message should be displayed here</h1>
+          )}
           <div ref={scrollRef} />
         </ScrollArea>
         {typingUsers.length > 0 && (
