@@ -46,7 +46,7 @@ const ChatHome = () => {
     });
     setMessage("");
   };
-
+  // console.log(author)
   const messages = useQuery(api.documents.getHomeMessages);
   console.log(messages, "MESSAGES");
   return (

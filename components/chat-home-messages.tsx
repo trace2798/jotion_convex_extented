@@ -3,6 +3,7 @@ import { HomeMessage } from "@/utils/helpers";
 import { FC } from "react";
 import { Trash } from "lucide-react";
 import { format } from "date-fns";
+import { Button } from "./ui/button";
 
 interface ChatHomeMessagesProps {
   message: HomeMessage;
@@ -43,19 +44,20 @@ const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
             {format(new Date(message._creationTime), "iiii, do MMMM, yyyy p")}
           </p>
         </div>
-        <div className="flex flex-col justify-between">
-          {/* <button
-            className={` cursor-pointer disabled:cursor-default absolute -bottom-7 p-0 ${
-              isOwnMessage ? "text-right right-2" : "left-2"
-            } ${!isOwnMessage || message.deleted ? "hidden" : ""} transition`}
-            disabled={!isOwnMessage}
-            onClick={deleteMessage(message.id)}
-            aria-label="Trash button to delete Message. Mod of the chat can delete all the messages."
-            // variant="ghost"
-          >
-            <Trash className="w-4 h-4 hover:text-red-700 text-slate-950 dark:text-neutral-200" />
-          </button> */}
-        </div>
+
+        {isOwnMessage && (
+          <div className="flex flex-col justify-between">
+            <Button
+              className="cursor-pointer -bottom-7 p-0 text-right right-2 transition"
+              // disabled={!isOwnMessage}
+              // onClick={deleteMessage(message.id)}
+              aria-label="Trash button to delete Message. Mod of the chat can delete all the messages."
+              variant="ghost"
+            >
+              <Trash className="w-4 h-4 hover:text-red-700 text-slate-950 dark:text-neutral-200" />
+            </Button>
+          </div>
+        )}
       </div>
     </>
   );
