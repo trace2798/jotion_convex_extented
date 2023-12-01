@@ -10,11 +10,11 @@ import { FC } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { redirect } from "next/navigation";
 
-interface AvatarOtherProps {
+interface AvatarDisplayProps {
   users: Member[];
 }
 
-const AvatarOther: FC<AvatarOtherProps> = ({ users }) => {
+const AvatarDisplay: FC<AvatarDisplayProps> = ({ users }) => {
   const { user } = useUser();
   if (!user) {
     redirect("/");
@@ -52,4 +52,4 @@ const AvatarOther: FC<AvatarOtherProps> = ({ users }) => {
   );
 };
 
-export default AvatarOther;
+export default AvatarDisplay;

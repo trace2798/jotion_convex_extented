@@ -1,21 +1,12 @@
 "use client";
 import { useUser } from "@clerk/clerk-react";
-import { useContext, useEffect, useMemo } from "react";
-import { SpacesContext } from "./space-context";
-import useMembers from "../hooks/useMembers";
+import { useEffect, useMemo } from "react";
 import { getSpaceNameFromUrl, type Member } from "../utils/helpers";
-import { getMemberColor } from "../utils/mockColors";
-import HomeAvatars from "./home-avatar";
-import { useMutation, useQuery } from "convex/react";
+
 import { api } from "@/convex/_generated/api";
-import { redirect, useParams, usePathname } from "next/navigation";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { getInitials } from "@/utils/helpers";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useMutation, useQuery } from "convex/react";
+import { redirect } from "next/navigation";
+import HomeAvatars from "./home-avatar";
 
 const AvatarStack = () => {
   const { user } = useUser();
@@ -35,15 +26,15 @@ const AvatarStack = () => {
       updatePresence({
         userId: user.id,
         lastActive: Date.now(),
-        location: spaceName, // replace with actual route
+        location: spaceName,
         userName: name ?? "",
         userPicture: imageUrl ?? "",
       });
     }
   }, [user?.id, updatePresence]);
-
+  console.log(spaceName);
   const users = useQuery(api.presence.getHomePresence, {
-    location: spaceName ?? "documents", // replace with actual route
+    location: spaceName ?? "documents",
   });
   console.log(users);
   console.log(users?.length);
@@ -57,7 +48,7 @@ const AvatarStack = () => {
   return (
     <div id="" className="w-full flex">
       {/** 💡 Stack of first 6 user avatars including yourself.💡 */}
-      <HomeAvatars otherUsers={activeUsers as Member[]} />
+      <HomeAvatars users={activeUsers as Member[]} />
     </div>
   );
 };

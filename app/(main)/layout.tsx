@@ -4,10 +4,8 @@ import { Spinner } from "@/components/spinner";
 import { useConvexAuth } from "convex/react";
 import { redirect } from "next/navigation";
 import { Navigation } from "./_components/navigation";
-import { AblyClientProvider } from "@/components/ably-provider";
 import AvatarCard from "@/components/avatar-card";
 import { getSpaceNameFromUrl } from "@/utils/helpers";
-import { SpaceContextProvider } from "@/components/space-context";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -24,13 +22,10 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return redirect("/");
   }
   const spaceName = getSpaceNameFromUrl();
-  console.log(spaceName)
+  console.log(spaceName);
 
   return (
     <>
-      {/* <AblyClientProvider>
-  
-        <SpaceContextProvider> */}
       <AvatarCard />
       <div className="h-full flex dark:bg-[#1F1F1F]">
         <Navigation />
@@ -39,10 +34,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </main>
       </div>
-
-      {/* </SpaceContextProvider>
-  
-      </AblyClientProvider> */}
     </>
   );
 };

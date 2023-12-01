@@ -505,6 +505,18 @@ export const sendMessage = mutation({
       isArchived: false,
     });
 
+    const existingPresence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(existingPresence);
+    if (existingPresence) {
+      await ctx.db.patch(existingPresence._id, {
+        lastActive: Date.now(),
+        location: args.documentId,
+      });
+    }
+
     return chat;
   },
 });

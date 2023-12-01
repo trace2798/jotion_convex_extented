@@ -24,9 +24,7 @@ const DocumentLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <LiveCursors />
-      {/* <AvatarCard /> */}
-
+    <AvatarCard/>
       <div className="h-full flex">
         <main className="flex-1 h-full overflow-y-auto">
           <SearchCommand />
