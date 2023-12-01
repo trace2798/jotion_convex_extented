@@ -61,3 +61,38 @@ export const getHomePresence = query({
     return presence;
   },
 });
+
+
+// export const updateLocation = mutation({
+//   args: {
+//     userId: v.id("users"),
+//     location: v.string(),
+//   },
+//   handler: async (ctx, args) => {
+//     const identity = await ctx.auth.getUserIdentity();
+
+//     if (!identity) {
+//       throw new Error("Not authenticated");
+//     }
+
+//     const userId = identity.subject;
+
+//     if (args.userId !== userId) {
+//       throw new Error("Unauthorized");
+//     }
+
+//     const presence = await ctx.db
+//       .query("presence")
+//       .withIndex("by_user", (q) => q.eq("userId", userId))
+//       .unique();
+
+//     if (presence) {
+//       await ctx.db.patch(presence._id, {
+//         lastActive: Date.now(),
+//         location: args.location,
+//       });
+//     }
+
+//     return presence;
+//   },
+// });

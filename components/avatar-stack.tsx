@@ -6,7 +6,7 @@ import { getSpaceNameFromUrl, type Member } from "../utils/helpers";
 import { api } from "@/convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import { redirect } from "next/navigation";
-import HomeAvatars from "./home-avatar";
+import Avatars from "./online-avatar";
 
 const AvatarStack = () => {
   const { user } = useUser();
@@ -42,13 +42,13 @@ const AvatarStack = () => {
     (user) => Date.now() - user.lastActive <= 1 * 60 * 1000
   );
   console.log(activeUsers?.length);
-  if (!activeUsers) {
+  if (!activeUsers || activeUsers.length === 0) {
     return <div>No Active Users</div>;
   }
   return (
-    <div id="" className="w-full flex">
+    <div className="w-full flex">
       {/** 💡 Stack of first 6 user avatars including yourself.💡 */}
-      <HomeAvatars users={activeUsers as Member[]} />
+      <Avatars users={activeUsers as Member[]} />
     </div>
   );
 };

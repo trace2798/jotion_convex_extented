@@ -382,6 +382,18 @@ export const getById = query({
       throw new Error("Unauthorized");
     }
 
+    // const presence = await ctx.db
+    //   .query("presence")
+    //   .withIndex("by_user", (q) => q.eq("userId", userId))
+    //   .unique();
+    // console.log(presence);
+    // if (presence) {
+    //   await ctx.db.patch(presence._id, {
+    //     lastActive: Date.now(),
+    //     location: document._id,
+    //   });
+    // }
+
     return document;
   },
 });
@@ -419,6 +431,18 @@ export const update = mutation({
     const document = await ctx.db.patch(args.id, {
       ...rest,
     });
+
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
 
     return document;
   },
@@ -505,13 +529,13 @@ export const sendMessage = mutation({
       isArchived: false,
     });
 
-    const existingPresence = await ctx.db
+    const presence = await ctx.db
       .query("presence")
       .withIndex("by_user", (q) => q.eq("userId", userId))
       .unique();
-    console.log(existingPresence);
-    if (existingPresence) {
-      await ctx.db.patch(existingPresence._id, {
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
         lastActive: Date.now(),
         location: args.documentId,
       });

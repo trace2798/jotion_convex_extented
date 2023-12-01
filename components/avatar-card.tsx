@@ -34,7 +34,7 @@ const AvatarCard: FC<AvatarCardProps> = () => {
   return (
     <>
       <Card className="fixed right-8 max-w-[300px] bottom-4 p-3 border border-gray-500 flex flex-row items-center justify-center z-[99]">
-        {!params.documentId ? <ChatHome /> : "Right Top"}
+        {!params.documentId ? <ChatHome /> : <div className="">Right Top</div>}
         <Separator
           orientation="vertical"
           className="bg-indigo-500 h-[30px] mx-2"

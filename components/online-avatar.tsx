@@ -1,13 +1,13 @@
 "use client";
 import type { Member } from "../utils/helpers";
 import { MAX_USERS_BEFORE_LIST } from "../utils/helpers";
-import Avatar from "./avatar-display";
+import AvatarDisplay from "./avatar-display";
 import AvatarDropdown from "./avatar-dropdown";
 
-const HomeAvatars = ({ users }: { users: Member[] }) => {
+const Avatars = ({ users }: { users: Member[] }) => {
   return (
     <div className="relative flex">
-      <Avatar
+      <AvatarDisplay
         users={users.slice(0, MAX_USERS_BEFORE_LIST).reverse()}
       />
       {users.length <= MAX_USERS_BEFORE_LIST ? (
@@ -19,4 +19,4 @@ const HomeAvatars = ({ users }: { users: Member[] }) => {
   );
 };
 
-export default HomeAvatars;
+export default Avatars;

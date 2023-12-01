@@ -1,7 +1,5 @@
 "use client";
 import AvatarCard from "@/components/avatar-card";
-import LiveCursors from "@/components/live-cursor";
-// import LiveCursors from "@/components/live-cursor";
 import { SearchCommand } from "@/components/search-command";
 import { Spinner } from "@/components/spinner";
 import { useConvexAuth } from "convex/react";
@@ -24,7 +22,7 @@ const DocumentLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-    <AvatarCard/>
+      <AvatarCard />
       <div className="h-full flex">
         <main className="flex-1 h-full overflow-y-auto">
           <SearchCommand />
