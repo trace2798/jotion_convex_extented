@@ -9,11 +9,6 @@ import { Separator } from "./ui/separator";
 const AblyAvatars = ({ otherUsers }: { otherUsers: Member[] }) => {
   return (
     <div className="relative flex">
-      {/* <AvatarSelf /> */}
-      {/* <Separator
-        orientation="vertical"
-        className="bg-indigo-500 h-[30px] mx-4"
-      /> */}
       <AvatarOther
         users={otherUsers.slice(0, MAX_USERS_BEFORE_LIST).reverse()}
       />

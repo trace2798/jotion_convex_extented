@@ -3,36 +3,80 @@ import { useUser } from "@clerk/clerk-react";
 import { useContext, useEffect, useMemo } from "react";
 import { SpacesContext } from "./space-context";
 import useMembers from "../hooks/useMembers";
-import type { Member } from "../utils/helpers";
+import { getSpaceNameFromUrl, type Member } from "../utils/helpers";
 import { getMemberColor } from "../utils/mockColors";
 import AblyAvatars from "./ably-avatar";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { redirect, useParams, usePathname } from "next/navigation";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { getInitials } from "@/utils/helpers";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const AvatarStack = () => {
   const { user } = useUser();
   const name = useMemo(() => user?.fullName, [user]);
   const imageUrl = useMemo(() => user?.imageUrl, [user]);
-  const memberColor = useMemo(getMemberColor, []);
-
+  // const memberColor = useMemo(getMemberColor, []);
+  console.log(user?.id);
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useContext(SpacesContext);
-
-  /** 💡 Enter the space as soon as it's available 💡 */
+  if (!user) {
+    redirect("/");
+  }
+  const updatePresence = useMutation(api.presence.updatePresence);
+  console.log(updatePresence);
+  const spaceName = getSpaceNameFromUrl();
   useEffect(() => {
-    space?.enter({ name, memberColor, imageUrl });
-  }, [space]);
-  // Getting all the members
-  const { allMembers } = useMembers(space);
+    if (user?.id) {
+      updatePresence({
+        userId: user.id,
+        lastActive: Date.now(),
+        location: spaceName, // replace with actual route
+        userName: name ?? "",
+        userPicture: imageUrl ?? "",
+      });
+    }
+  }, [user?.id, updatePresence]);
 
-  const uniqueUsers = Array.from(
-    new Set(allMembers.map((user) => user.clientId))
-  ).map((id) => {
-    return allMembers.find((user) => user.clientId === id);
+  const users = useQuery(api.presence.getHomePresence, {
+    location: spaceName ?? "documents", // replace with actual route
   });
+  console.log(users);
+  console.log(users?.length);
 
   return (
-    <div id="avatar-stack">
+    <div id="avatar-stack bg-white">
+      {/* Avatar STack displyed here */}
+      {users?.map((user, index) => (
+        <div className="flex flex-row">
+          <HoverCard key={index}>
+            <HoverCardTrigger>
+              <Avatar className="h-8 w-8">
+                <AvatarImage
+                  src={`${user?.userPicture ?? "default_image_url"}`}
+                  alt={`image of`}
+                />
+                <AvatarFallback>
+                  {getInitials(user.userName ?? "")}
+                </AvatarFallback>
+                <div
+                  className="bg-green-500 w-[10px] h-[10px] rounded-full absolute bottom-1 left-0 transform translate-y-1/2 translate-x-1/2"
+                  id="status-indicator"
+                />
+              </Avatar>
+            </HoverCardTrigger>
+            <HoverCardContent className="capitalize">
+              {user?.userName}
+            </HoverCardContent>
+          </HoverCard>
+        </div>
+      ))}
       {/** 💡 Stack of first 6 user avatars including yourself.💡 */}
-      <AblyAvatars otherUsers={uniqueUsers as Member[]} />
+      {/* <AblyAvatars otherUsers={uniqueUsers as Member[]} /> */}
     </div>
   );
 };

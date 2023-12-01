@@ -34,4 +34,14 @@ export default defineSchema({
     message: v.string(),
     isArchived: v.boolean(),
   }).index("by_user", ["userId"]),
+
+  presence: defineTable({
+    userId: v.string(),
+    lastActive: v.number(),
+    location: v.optional(v.string()),
+    userPicture: v.optional(v.string()),
+    userName: v.optional(v.string()),
+  })
+    .index("by_user", ["userId"])
+    .index("by_location", ["location"]),
 });
