@@ -6,7 +6,7 @@ import AvatarOther from "./avatar-other";
 import AvatarSelf from "./avatar-self";
 import { Separator } from "./ui/separator";
 
-const AblyAvatars = ({ otherUsers }: { otherUsers: Member[] }) => {
+const HomeAvatars = ({ otherUsers }: { otherUsers: any[] }) => {
   return (
     <div className="relative flex">
       <AvatarOther
@@ -21,4 +21,4 @@ const AblyAvatars = ({ otherUsers }: { otherUsers: Member[] }) => {
   );
 };
 
-export default AblyAvatars;
+export default HomeAvatars;

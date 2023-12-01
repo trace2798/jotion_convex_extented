@@ -5,7 +5,7 @@ import { SpacesContext } from "./space-context";
 import useMembers from "../hooks/useMembers";
 import { getSpaceNameFromUrl, type Member } from "../utils/helpers";
 import { getMemberColor } from "../utils/mockColors";
-import AblyAvatars from "./ably-avatar";
+import HomeAvatars from "./home-avatar";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { redirect, useParams, usePathname } from "next/navigation";
@@ -47,36 +47,17 @@ const AvatarStack = () => {
   });
   console.log(users);
   console.log(users?.length);
-
+  const activeUsers = users?.filter(
+    (user) => Date.now() - user.lastActive <= 1 * 60 * 1000
+  );
+  console.log(activeUsers?.length);
+  if (!activeUsers) {
+    return <div>No Active Users</div>;
+  }
   return (
-    <div id="avatar-stack bg-white">
-      {/* Avatar STack displyed here */}
-      {users?.map((user, index) => (
-        <div className="flex flex-row">
-          <HoverCard key={index}>
-            <HoverCardTrigger>
-              <Avatar className="h-8 w-8">
-                <AvatarImage
-                  src={`${user?.userPicture ?? "default_image_url"}`}
-                  alt={`image of`}
-                />
-                <AvatarFallback>
-                  {getInitials(user.userName ?? "")}
-                </AvatarFallback>
-                <div
-                  className="bg-green-500 w-[10px] h-[10px] rounded-full absolute bottom-1 left-0 transform translate-y-1/2 translate-x-1/2"
-                  id="status-indicator"
-                />
-              </Avatar>
-            </HoverCardTrigger>
-            <HoverCardContent className="capitalize">
-              {user?.userName}
-            </HoverCardContent>
-          </HoverCard>
-        </div>
-      ))}
+    <div id="" className="w-full flex">
       {/** 💡 Stack of first 6 user avatars including yourself.💡 */}
-      {/* <AblyAvatars otherUsers={uniqueUsers as Member[]} /> */}
+      <HomeAvatars otherUsers={activeUsers as Member[]} />
     </div>
   );
 };

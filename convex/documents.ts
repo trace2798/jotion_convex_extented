@@ -553,6 +553,22 @@ export const sendHomeMessage = mutation({
       isArchived: false,
     });
 
+    // const updateStatus = await ctx.db.patch("presence",{
+
+    // })
+    const existingPresence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(existingPresence);
+    if (existingPresence) {
+      await ctx.db.patch(existingPresence._id, {
+        lastActive: Date.now(),
+        location: "documents",
+      });
+    }
+    // presence = await ctx.db.get(existingPresence._id);
+    console.log(chat);
     return chat;
   },
 });

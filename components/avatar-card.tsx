@@ -1,15 +1,11 @@
+import { Cover } from "@/components/cover";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useParams } from "next/navigation";
 import { FC } from "react";
 import AvatarStack from "./avatar-stack";
 import ChatHome from "./home-chat";
 import { Card } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { useParams } from "next/navigation";
-import ChatSheet from "./chat-sheet";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-import { Cover } from "@/components/cover";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface AvatarCardProps {}
 

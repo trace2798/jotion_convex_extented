@@ -105,11 +105,9 @@ const ChatSheet = ({ creatorId }: { creatorId: string }) => {
               <ChatMessages
                 message={message}
                 isOwnMessage={message.userName === author}
-                // deleteMessage={deleteMessage}
                 isModerator={isModerator}
                 key={index}
               />
-              // <h1>{message.message}</h1>
             ))
           )}
           <div ref={scrollRef} />
@@ -124,13 +122,10 @@ const ChatSheet = ({ creatorId }: { creatorId: string }) => {
           placeholder="Send a Message to get started"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          // onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          // onKeyDown={handleKeyDown}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               sendMessage();
             }
-            // handleKeyDown();
           }}
         />
       </SheetContent>

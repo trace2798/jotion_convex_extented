@@ -33,10 +33,14 @@ export const getSpaceNameFromUrl = () => {
 };
 
 export const REMOVE_USER_AFTER_MILLIS = 120_000;
-export const MAX_USERS_BEFORE_LIST = 6;
+export const MAX_USERS_BEFORE_LIST = 5;
 
-export type Member = Omit<SpaceMember, "profileData"> & {
-  profileData: { memberColor: string; name: string; imageUrl?: string };
+export type Member = {
+  userId: string;
+  lastActive: number;
+  location: string;
+  userPicture: string;
+  userName: string;
 };
 
 export type Message = {

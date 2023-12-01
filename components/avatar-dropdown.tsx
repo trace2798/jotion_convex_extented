@@ -33,18 +33,18 @@ const AvatarDropdown: FC<AvatarDropdownProps> = ({ otherUsers }) => {
               >
                 <Avatar className="h-8 w-8">
                   <AvatarImage
-                    src={`${user?.profileData.imageUrl || "default_image_url"}`}
+                    src={`${user?.userPicture || "default_image_url"}`}
                     alt={`image of`}
                   />
                   <AvatarFallback>
-                    {getInitials(user.profileData.name)}
+                    {getInitials(user.userName)}
                   </AvatarFallback>
                   <div
                     className="bg-green-500 w-[10px] h-[10px] rounded-full absolute bottom-1 left-0 transform translate-y-1/2 translate-x-1/2"
                     id="status-indicator"
                   />
                 </Avatar>
-                <h1 className="ml-3 capitalize">{user.profileData.name}</h1>
+                <h1 className="ml-3 capitalize">{user.userName}</h1>
               </DropdownMenuItem>
             ))}
           </>
