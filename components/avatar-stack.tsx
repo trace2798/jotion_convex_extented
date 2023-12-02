@@ -8,7 +8,7 @@ import { useMutation, useQuery } from "convex/react";
 import { redirect } from "next/navigation";
 import Avatars from "./online-avatar";
 
-const AvatarStack = ({nameOfSpace}:{nameOfSpace:string}) => {
+const AvatarStack = ({ nameOfSpace }: { nameOfSpace: string }) => {
   const { user } = useUser();
   const name = useMemo(() => user?.fullName, [user]);
   const imageUrl = useMemo(() => user?.imageUrl, [user]);
@@ -49,6 +49,11 @@ const AvatarStack = ({nameOfSpace}:{nameOfSpace:string}) => {
     <div className="w-full flex">
       {/** 💡 Stack of first 6 user avatars including yourself.💡 */}
       <Avatars users={activeUsers as Member[]} />
+      {/* {nameOfSpace === "documents" ? (
+        <Avatars users={activeUsers as Member[]} />
+      ) : (
+        <h1>Only shown in home</h1>
+      )} */}
     </div>
   );
 };

@@ -26,7 +26,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <AvatarCard nameOfSpace={spaceName ?? "documents"} />
+      {/* <AvatarCard nameOfSpace={spaceName ?? "documents"} /> */}
       <div className="h-full flex dark:bg-[#1F1F1F]">
         <Navigation />
         <main className="flex-1 h-full overflow-y-auto">
