@@ -8,7 +8,7 @@ import { useMutation, useQuery } from "convex/react";
 import { redirect } from "next/navigation";
 import Avatars from "./online-avatar";
 
-const AvatarStack = () => {
+const AvatarStack = ({nameOfSpace}:{nameOfSpace:string}) => {
   const { user } = useUser();
   const name = useMemo(() => user?.fullName, [user]);
   const imageUrl = useMemo(() => user?.imageUrl, [user]);
@@ -20,21 +20,21 @@ const AvatarStack = () => {
   }
   const updatePresence = useMutation(api.presence.updatePresence);
   console.log(updatePresence);
-  const spaceName = getSpaceNameFromUrl();
+  // const spaceName = getSpaceNameFromUrl();
   useEffect(() => {
     if (user?.id) {
       updatePresence({
         userId: user.id,
         lastActive: Date.now(),
-        location: spaceName,
+        location: nameOfSpace,
         userName: name ?? "",
         userPicture: imageUrl ?? "",
       });
     }
   }, [user?.id, updatePresence]);
-  console.log(spaceName);
+  // console.log(spaceName);
   const users = useQuery(api.presence.getHomePresence, {
-    location: spaceName ?? "documents",
+    location: nameOfSpace ?? "documents",
   });
   console.log(users);
   console.log(users?.length);

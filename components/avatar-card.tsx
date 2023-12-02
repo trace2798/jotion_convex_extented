@@ -7,9 +7,11 @@ import ChatHome from "./home-chat";
 import { Card } from "./ui/card";
 import { Separator } from "./ui/separator";
 
-interface AvatarCardProps {}
+interface AvatarCardProps {
+  nameOfSpace: string;
+}
 
-const AvatarCard: FC<AvatarCardProps> = () => {
+const AvatarCard: FC<AvatarCardProps> = ({nameOfSpace}) => {
   const params = useParams();
 
   if (document === undefined) {
@@ -39,7 +41,7 @@ const AvatarCard: FC<AvatarCardProps> = () => {
           orientation="vertical"
           className="bg-indigo-500 h-[30px] mx-2"
         />
-        <AvatarStack />
+        <AvatarStack nameOfSpace={nameOfSpace} />
       </Card>
     </>
   );
