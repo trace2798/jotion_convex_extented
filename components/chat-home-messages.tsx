@@ -18,7 +18,6 @@ const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
   message,
   isOwnMessage,
 }) => {
- 
   const archiveMessage = useMutation(api.documents.archiveHomeMessage);
   const deleteMessage = () => {
     if (!message._id) return;
@@ -68,11 +67,10 @@ const ChatHomeMessages: FC<ChatHomeMessagesProps> = ({
           </p>
         </div>
 
-        {isOwnMessage && (
+        {isOwnMessage && !message.isArchived && (
           <div className="flex flex-col justify-between">
             <Button
               className="cursor-pointer -bottom-7 p-0 text-right right-2 transition"
-              // disabled={!isOwnMessage}
               onClick={deleteMessage}
               aria-label="Trash button to delete Message. Mod of the chat can delete all the messages."
               variant="ghost"

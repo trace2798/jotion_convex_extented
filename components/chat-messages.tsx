@@ -70,7 +70,7 @@ const ChatMessages: FC<ChatMessagesProps> = ({
           </p>
         </div>
 
-        {(isOwnMessage || isModerator) && (
+        {(isOwnMessage || isModerator) && !message.isArchived && (
           <div className="flex justify-start">
             <Button
               className="cursor-pointer -bottom-7 p-0 text-right right-2 transition"

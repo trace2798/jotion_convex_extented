@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/clerk-react";
 import { useMutation, useQuery } from "convex/react";
 import { redirect } from "next/navigation";
-import { ElementRef, useRef, useState } from "react";
+import { ElementRef, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import ChatHomeMessages from "./chat-home-messages";
 import { Button } from "./ui/button";
@@ -45,10 +45,19 @@ const ChatHome = () => {
   // console.log(author)
   const messages = useQuery(api.documents.getHomeMessages);
   console.log(messages, "MESSAGES");
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      setTimeout(() => {
+        (scrollRef.current as ElementRef<"div">).scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 100); // Adjust delay as needed
+    }
+  }, [messages]);
   return (
     <Sheet defaultOpen>
       <SheetTrigger asChild defaultChecked>
-        {/* <Button variant="outline">Open Chat</Button> */}
         <Button
           className="text-muted-foreground rounded-full hover:bg-zinc-300 dark:hover:bg-gray-600 hover:text-indigo-700 dark:hover:text-zinc-100"
           size="icon"
@@ -94,7 +103,6 @@ const ChatHome = () => {
               <ChatHomeMessages
                 message={message}
                 isOwnMessage={message.userName === author}
-                // deleteMessage={deleteMessage}
                 key={index}
               />
             ))
@@ -102,9 +110,6 @@ const ChatHome = () => {
 
           <div ref={scrollRef} />
         </ScrollArea>
-        {typingUsers.length > 0 && (
-          <p className="text-xs">{typingUsers.join(", ")} is typing...</p>
-        )}
         <Input
           type="text"
           disabled={loading}
@@ -116,7 +121,6 @@ const ChatHome = () => {
             if (e.key === "Enter") {
               sendMessage();
             }
-            // handleKeyDown();
           }}
         />
       </SheetContent>
