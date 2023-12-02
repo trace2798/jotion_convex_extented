@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ably/spaces": "^0.3.0",
     "@blocknote/core": "^0.9.6",
     "@blocknote/react": "^0.9.6",
     "@clerk/clerk-react": "^4.28.1",
@@ -26,7 +25,6 @@
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
-    "ably": "^1.2.48",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
