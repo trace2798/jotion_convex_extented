@@ -27,7 +27,7 @@ const DocumentLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <AvatarCard nameOfSpace={spaceName?? ""} />
+      <AvatarCard nameOfSpace={spaceName?? "documents"} />
       <div className="h-full flex">
         <main className="flex-1 h-full overflow-y-auto">
           <SearchCommand />

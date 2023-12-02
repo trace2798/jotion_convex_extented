@@ -52,15 +52,18 @@ const ChatSheet = ({ creatorId }: { creatorId: string }) => {
   const messages = useQuery(api.documents.getMessages, {
     documentId: params.documentId as Id<"documents">,
   });
-
+  
   console.log(messages, "MESSAGES");
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        (scrollRef.current as ElementRef<"div">).scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 100); // Adjust delay as needed
     }
   }, [messages]);
-
 
   return (
     <Sheet>
@@ -120,10 +123,6 @@ const ChatSheet = ({ creatorId }: { creatorId: string }) => {
           )}
           <div ref={scrollRef} />
         </ScrollArea>
-        {typingUsers.length > 0 && (
-          <p className="text-xs">{typingUsers.join(", ")} is typing...</p>
-        )}
-        {/* <div ref={scrollRef} /> */}
         <Input
           type="text"
           disabled={loading}

@@ -1,21 +1,17 @@
 "use client";
+import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
-import { Message } from "@/utils/helpers";
 import { useUser } from "@clerk/clerk-react";
-import { Types } from "ably";
-import { useChannel } from "ably/react";
+import { useMutation, useQuery } from "convex/react";
 import { redirect } from "next/navigation";
-import { ElementRef, useEffect, useReducer, useRef, useState } from "react";
+import { ElementRef, useRef, useState } from "react";
+import { toast } from "sonner";
 import ChatHomeMessages from "./chat-home-messages";
 import { Button } from "./ui/button";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { toast } from "sonner";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
 
 const ChatHome = () => {
   const { user } = useUser();
