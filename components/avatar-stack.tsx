@@ -39,7 +39,7 @@ const AvatarStack = ({ nameOfSpace }: { nameOfSpace: string }) => {
   console.log(users);
   console.log(users?.length);
   const activeUsers = users?.filter(
-    (user) => Date.now() - user.lastActive <= 1 * 60 * 1000
+    (user) => Date.now() - user.lastActive <= 2 * 60 * 1000
   );
   console.log(activeUsers?.length);
   if (!activeUsers || activeUsers.length === 0) {
