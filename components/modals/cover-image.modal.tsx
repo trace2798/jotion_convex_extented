@@ -13,6 +13,8 @@ import { Id } from "@/convex/_generated/dataModel";
 import { UploadDropzone, UploadFileResponse } from "@xixixao/uploadstuff/react";
 import "@xixixao/uploadstuff/react/styles.css";
 import { getSpaceNameFromUrl } from "@/utils/helpers";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export const CoverImageModal = () => {
   const params = useParams();
@@ -64,20 +66,24 @@ export const CoverImageModal = () => {
           <h2 className="text-center text-lg font-semibold">Cover Image</h2>
         </DialogHeader>
         <form onSubmit={handleUpload}>
-          <input
+          <Input
             type="file"
             accept="image/*"
             ref={imageInput}
             onChange={(event) => setSelectedImage(event.target.files![0])}
             // disabled={selectedImage !== null}
           />
-          <input
+
+          <Button
             type="submit"
             value="Send Image"
             disabled={isSubmitting}
-            className="hover:cursor-pointer"
-          />
+            className="hover:cursor-pointer mt-5"
+          >
+            Submit Image
+          </Button>
         </form>
+        {/* <SingleImageDropzone onChange={handleUpload}/> */}
       </DialogContent>
     </Dialog>
   );

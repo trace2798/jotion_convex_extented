@@ -27,16 +27,16 @@ export const Cover = ({ url, preview, storageId }: CoverImageProps) => {
   const removeCoverImage = useMutation(api.documents.removeCoverImage);
   const removeImage = useMutation(api.documents.deleteById);
   const onRemove = async () => {
-    // if (url) {
-    //   await edgestore.publicFiles.delete({
-    //     url: url,
-    //   });
-    // }
     removeImage({
       id: params.documentId as Id<"documents">,
       storageId: storageId as Id<"_storage">,
     });
   };
+
+  const handleImageChange = async () => {
+    coverImage.onOpen()
+    
+  }
 
   return (
     <div
@@ -50,7 +50,7 @@ export const Cover = ({ url, preview, storageId }: CoverImageProps) => {
       {url && !preview && (
         <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2">
           <Button
-            onClick={() => coverImage.onReplace(url)}
+            onClick={handleImageChange}
             className="text-muted-foreground text-xs"
             variant="outline"
             size="sm"

@@ -791,9 +791,31 @@ export const deleteById = mutation({
       throw new Error("Unauthorized");
     }
     await ctx.db.patch(args.id, {
-     coverImage: "",
+      coverImage: undefined,
     });
 
     return await ctx.storage.delete(args.storageId);
+  },
+});
+
+export const generateMutationUrlFromId = mutation({
+  args: { id: v.id("_storage") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthenticated");
+    }
+
+    const userId = identity.subject;
+
+
+    // if (existingDocument.userId !== userId) {
+    //   throw new Error("Unauthorized");
+    // }
+  
+    // Generate the file URL from the storage ID
+    const fileUrl = await ctx.storage.getUrl(args.id);
+    return fileUrl;
   },
 });
