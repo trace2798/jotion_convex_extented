@@ -45,7 +45,6 @@ export const archive = mutation({
     });
 
     recursiveArchive(args.id);
-
     const presence = await ctx.db
       .query("presence")
       .withIndex("by_user", (q) => q.eq("userId", userId))
