@@ -353,17 +353,6 @@ export const remove = mutation({
     if (!identity) {
       throw new Error("Not authenticated");
     }
-    const presence = await ctx.db
-      .query("presence")
-      .withIndex("by_user", (q) => q.eq("userId", userId))
-      .unique();
-    console.log(presence);
-    if (presence) {
-      await ctx.db.patch(presence._id, {
-        lastActive: Date.now(),
-        location: args.id,
-      });
-    }
 
     const userId = identity.subject;
 
@@ -378,7 +367,17 @@ export const remove = mutation({
     }
 
     const document = await ctx.db.delete(args.id);
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     return document;
   },
 });
