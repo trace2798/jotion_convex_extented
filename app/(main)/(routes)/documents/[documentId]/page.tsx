@@ -63,7 +63,8 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     <div className="pb-4">
       {url ? <Cover url={url} storageId={document.coverImage} /> : ""}
       <div className="md:max-w-3xl mt-12 lg:max-w-4xl mx-auto">
-        {document.isEditable ? <Toolbar initialData={document} /> : ""}
+        {/* {document.isEditable ? <Toolbar initialData={document} /> : ""} */}
+        <Toolbar initialData={document} isEditable={document.isEditable} />
         {document.isEditable ? (
           <Editor
             onChange={onChange}

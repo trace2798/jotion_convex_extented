@@ -15,11 +15,13 @@ import { IconPicker } from "./icon-picker";
 interface ToolbarProps {
   initialData: Doc<"documents">;
   preview?: boolean;
+  isEditable?: boolean;
 };
 
 export const Toolbar = ({
   initialData,
-  preview
+  preview,
+  isEditable,
 }: ToolbarProps) => {
   const inputRef = useRef<ElementRef<"textarea">>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -97,7 +99,7 @@ export const Toolbar = ({
         </p>
       )}
       <div className="opacity-0 group-hover:opacity-100 flex items-center gap-x-1 py-4">
-        {!initialData.icon && !preview && (
+        {!initialData.icon && !preview && isEditable && (
           <IconPicker asChild onChange={onIconSelect}>
             <Button
               className="text-muted-foreground text-xs"
@@ -109,7 +111,7 @@ export const Toolbar = ({
             </Button>
           </IconPicker>
         )}
-        {!initialData.coverImage && !preview && (
+        {!initialData.coverImage && !preview && isEditable && (
           <Button
             onClick={coverImage.onOpen}
             className="text-muted-foreground text-xs"
