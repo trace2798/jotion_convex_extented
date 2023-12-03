@@ -33,10 +33,6 @@ export const Cover = ({ url, preview, storageId }: CoverImageProps) => {
     });
   };
 
-  const handleImageChange = async () => {
-    coverImage.onOpen()
-    
-  }
 
   return (
     <div
@@ -49,7 +45,7 @@ export const Cover = ({ url, preview, storageId }: CoverImageProps) => {
       {!!url && <Image src={url} fill alt="Cover" className="object-cover" />}
       {url && !preview && (
         <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2">
-          <Button
+          {/* <Button
             onClick={handleImageChange}
             className="text-muted-foreground text-xs"
             variant="outline"
@@ -57,7 +53,7 @@ export const Cover = ({ url, preview, storageId }: CoverImageProps) => {
           >
             <ImageIcon className="h-4 w-4 mr-2" />
             Change cover
-          </Button>
+          </Button> */}
           <Button
             onClick={onRemove}
             className="text-muted-foreground text-xs"
