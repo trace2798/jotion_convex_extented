@@ -7,17 +7,6 @@ export const archive = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    const presence = await ctx.db
-      .query("presence")
-      .withIndex("by_user", (q) => q.eq("userId", userId))
-      .unique();
-    console.log(presence);
-    if (presence) {
-      await ctx.db.patch(presence._id, {
-        lastActive: Date.now(),
-        location: args.id,
-      });
-    }
     if (!identity) {
       throw new Error("Not authenticated");
     }
@@ -56,6 +45,18 @@ export const archive = mutation({
     });
 
     recursiveArchive(args.id);
+
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: "documents",
+      });
+    }
 
     return document;
   },
