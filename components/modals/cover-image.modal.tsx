@@ -74,14 +74,13 @@ export const CoverImageModal = () => {
             // disabled={selectedImage !== null}
           />
 
-          <Button
+          <input
             type="submit"
             value="Send Image"
             disabled={isSubmitting}
             className="hover:cursor-pointer mt-5"
-          >
-            Submit Image
-          </Button>
+          />
+         
         </form>
         {/* <SingleImageDropzone onChange={handleUpload}/> */}
       </DialogContent>
