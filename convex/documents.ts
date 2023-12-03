@@ -703,9 +703,9 @@ export const generateUploadUrl = mutation({
       throw new Error("Not found");
     }
 
-    if (existingDocument.userId !== userId) {
-      throw new Error("Unauthorized");
-    }
+    // if (existingDocument.userId !== userId) {
+    //   throw new Error("Unauthorized");
+    // }
 
     return await ctx.storage.generateUploadUrl();
   },
