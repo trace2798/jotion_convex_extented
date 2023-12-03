@@ -7,7 +7,17 @@ export const archive = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Not authenticated");
     }
@@ -55,7 +65,17 @@ export const toggleVisibility = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Not authenticated");
     }
@@ -106,6 +126,17 @@ export const toggleEditibility = mutation({
 
     if (!identity) {
       throw new Error("Not authenticated");
+    }
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
     }
 
     const userId = identity.subject;
@@ -252,7 +283,17 @@ export const restore = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Not authenticated");
     }
@@ -312,6 +353,17 @@ export const remove = mutation({
 
     if (!identity) {
       throw new Error("Not authenticated");
+    }
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
     }
 
     const userId = identity.subject;
@@ -409,7 +461,17 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Unauthenticated");
     }
@@ -432,6 +494,14 @@ export const update = mutation({
       ...rest,
     });
 
+    return document;
+  },
+});
+
+export const removeIcon = mutation({
+  args: { id: v.id("documents") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
     const presence = await ctx.db
       .query("presence")
       .withIndex("by_user", (q) => q.eq("userId", userId))
@@ -443,16 +513,6 @@ export const update = mutation({
         location: args.id,
       });
     }
-
-    return document;
-  },
-});
-
-export const removeIcon = mutation({
-  args: { id: v.id("documents") },
-  handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
     if (!identity) {
       throw new Error("Unauthenticated");
     }
@@ -481,7 +541,17 @@ export const removeCoverImage = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Unauthenticated");
     }
@@ -630,7 +700,17 @@ export const archiveHomeMessage = mutation({
   args: { id: v.id("homeChat") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: "documents",
+      });
+    }
     if (!identity) {
       throw new Error("Not authenticated");
     }
@@ -658,7 +738,17 @@ export const archiveDocumentMessage = mutation({
   args: { id: v.id("chats") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Not authenticated");
     }
@@ -690,7 +780,17 @@ export const generateUploadUrl = mutation({
   args: { id: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Unauthenticated");
     }
@@ -715,7 +815,17 @@ export const saveStorageId = mutation({
   args: { id: v.id("documents"), coverImage: v.string() },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Unauthenticated");
     }
@@ -774,7 +884,17 @@ export const deleteById = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Unauthenticated");
     }
@@ -802,18 +922,27 @@ export const generateMutationUrlFromId = mutation({
   args: { id: v.id("_storage") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    const presence = await ctx.db
+      .query("presence")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .unique();
+    console.log(presence);
+    if (presence) {
+      await ctx.db.patch(presence._id, {
+        lastActive: Date.now(),
+        location: args.id,
+      });
+    }
     if (!identity) {
       throw new Error("Unauthenticated");
     }
 
     const userId = identity.subject;
 
-
     // if (existingDocument.userId !== userId) {
     //   throw new Error("Unauthorized");
     // }
-  
+
     // Generate the file URL from the storage ID
     const fileUrl = await ctx.storage.getUrl(args.id);
     return fileUrl;
