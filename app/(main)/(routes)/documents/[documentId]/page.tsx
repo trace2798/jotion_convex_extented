@@ -27,7 +27,9 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
   });
-
+  const url = useQuery(api.documents.generateUrlFromId, {
+    id: params.documentId,
+  });
   const update = useMutation(api.documents.update);
 
   const onChange = (content: string) => {
@@ -59,7 +61,9 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
 
   return (
     <div className="pb-4">
-      <Cover url={document.coverImage} />
+      {url ? <Cover url={url} /> : ""}
+
+      {/* <h1 className="mt-24">{url}</h1> */}
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
         <Toolbar initialData={document} />
         {document.isEditable ? (

@@ -2,7 +2,7 @@
 const nextConfig = {
     images: {
       domains: [
-        "files.edgestore.dev"
+        "files.edgestore.dev", "convex.cloud", "polished-chihuahua-522.convex.cloud", "amiable-snail-633.convex.cloud"
       ]
     }
   }

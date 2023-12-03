@@ -685,3 +685,84 @@ export const archiveDocumentMessage = mutation({
     return message;
   },
 });
+
+export const generateUploadUrl = mutation({
+  args: { id: v.id("documents") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthenticated");
+    }
+
+    const userId = identity.subject;
+
+    const existingDocument = await ctx.db.get(args.id);
+
+    if (!existingDocument) {
+      throw new Error("Not found");
+    }
+
+    if (existingDocument.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    return await ctx.storage.generateUploadUrl();
+  },
+});
+
+export const saveStorageId = mutation({
+  args: { id: v.id("documents"), coverImage: v.string() },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthenticated");
+    }
+
+    const userId = identity.subject;
+
+    const existingDocument = await ctx.db.get(args.id);
+
+    if (!existingDocument) {
+      throw new Error("Not found");
+    }
+
+    if (existingDocument.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    // Update the document with the storage ID of the uploaded file
+    const res = await ctx.db.patch(args.id, { coverImage: args.coverImage });
+    return res;
+  },
+});
+
+export const generateUrlFromId = query({
+  args: { id: v.id("documents") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthenticated");
+    }
+
+    const userId = identity.subject;
+
+    const existingDocument = await ctx.db.get(args.id);
+
+    if (!existingDocument) {
+      throw new Error("Not found");
+    }
+
+    if (existingDocument.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+    if (!existingDocument.coverImage) {
+      return null;
+    }
+    // Generate the file URL from the storage ID
+    const fileUrl = await ctx.storage.getUrl(existingDocument.coverImage);
+    return fileUrl;
+  },
+});

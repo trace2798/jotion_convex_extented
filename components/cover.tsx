@@ -1,16 +1,18 @@
 "use client";
 
-import Image from "next/image";
-import { ImageIcon, X } from "lucide-react";
-import { useMutation } from "convex/react";
-import { useParams } from "next/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useCoverImage } from "@/hooks/use-cover-image";
+import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { useCoverImage } from "@/hooks/use-cover-image";
 import { useEdgeStore } from "@/lib/edgestore";
+import { cn } from "@/lib/utils";
+import { useMutation } from "convex/react";
+import { ImageIcon, X } from "lucide-react";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+
+
 
 interface CoverImageProps {
   url?: string;
@@ -21,6 +23,7 @@ export const Cover = ({
   url,
   preview,
 }: CoverImageProps) => {
+  console.log(url)
   const { edgestore } = useEdgeStore();
   const params = useParams();
   const coverImage = useCoverImage();
