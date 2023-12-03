@@ -755,14 +755,45 @@ export const generateUrlFromId = query({
       throw new Error("Not found");
     }
 
-    if (existingDocument.userId !== userId) {
-      throw new Error("Unauthorized");
-    }
+    // if (existingDocument.userId !== userId) {
+    //   throw new Error("Unauthorized");
+    // }
     if (!existingDocument.coverImage) {
       return null;
     }
     // Generate the file URL from the storage ID
     const fileUrl = await ctx.storage.getUrl(existingDocument.coverImage);
     return fileUrl;
+  },
+});
+
+export const deleteById = mutation({
+  args: {
+    id: v.id("documents"),
+    storageId: v.id("_storage"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthenticated");
+    }
+
+    const userId = identity.subject;
+
+    const existingDocument = await ctx.db.get(args.id);
+
+    if (!existingDocument) {
+      throw new Error("Not found");
+    }
+
+    if (existingDocument.userId !== userId) {
+      throw new Error("Unauthorized");
+    }
+    await ctx.db.patch(args.id, {
+     coverImage: "",
+    });
+
+    return await ctx.storage.delete(args.storageId);
   },
 });

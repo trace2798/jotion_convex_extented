@@ -29,6 +29,12 @@ export const CoverImageModal = () => {
   const saveStorageId = useMutation(api.documents.saveStorageId);
   const result = saveStorageId.toString();
 
+  const onClose = () => {
+    setFile(undefined);
+    setIsSubmitting(false);
+    coverImage.onClose();
+  };
+
   const handleUpload = async (event: FormEvent) => {
     event.preventDefault();
     console.log("INSIDE HANDLE UPLOAD");
@@ -47,43 +53,9 @@ export const CoverImageModal = () => {
       id: spaceName as Id<"documents">,
       coverImage: body.storageId,
     });
+    onClose();
   };
-  const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
-    console.log(uploaded);
-    try {
-      const res = await saveStorageId({
-        id: spaceName as Id<"documents">,
-        coverImage: (uploaded[0].response as any).storageId,
-      });
-      console.log(res);
-      console.log(uploaded);
-      console.log(uploaded[0].response);
-      await update({
-        id: params.documentId as Id<"documents">,
-        coverImage: (uploaded[0].response as any).storageId,
-      });
-      // setFile(undefined);
-      // setIsSubmitting(false);
-      // coverImage.onClose();
-      console.log(uploaded);
-    } catch (error) {
-      console.error("Error in saveAfterUpload:", error);
-    }
-  };
-  console.log(saveAfterUpload);
-  const [uploadUrl, setUploadUrl] = useState<string | null>(null);
 
-  // useEffect(() => {
-  //   const fetchUploadUrl = async () => {
-  //     const url = await generateUploadUrl({ id: spaceName as Id<"documents"> });
-  //     setUploadUrl(url);
-  //   };
-
-  //   fetchUploadUrl();
-  // }, [generateUploadUrl, spaceName]);
-
-  console.log(uploadUrl);
-  console.log(saveStorageId);
   const imageInput = useRef<HTMLInputElement>(null);
   return (
     <Dialog open={coverImage.isOpen} onOpenChange={coverImage.onClose}>
@@ -91,16 +63,6 @@ export const CoverImageModal = () => {
         <DialogHeader>
           <h2 className="text-center text-lg font-semibold">Cover Image</h2>
         </DialogHeader>
-        {/* <UploadDropzone
-          uploadUrl={handleUpload as any}
-          fileTypes={["image/*"]}
-          onClientUploadComplete={saveAfterUpload}
-          onUploadError={(error: unknown) => {
-            // Do something with the error.
-            alert(`ERROR! ${error}`);
-            console.log(error);
-          }}
-        /> */}
         <form onSubmit={handleUpload}>
           <input
             type="file"
@@ -112,7 +74,8 @@ export const CoverImageModal = () => {
           <input
             type="submit"
             value="Send Image"
-            disabled={selectedImage === null}
+            disabled={isSubmitting}
+            className="hover:cursor-pointer"
           />
         </form>
       </DialogContent>
