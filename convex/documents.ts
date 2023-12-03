@@ -728,9 +728,9 @@ export const saveStorageId = mutation({
       throw new Error("Not found");
     }
 
-    if (existingDocument.userId !== userId) {
-      throw new Error("Unauthorized");
-    }
+    // if (existingDocument.userId !== userId) {
+    //   throw new Error("Unauthorized");
+    // }
 
     // Update the document with the storage ID of the uploaded file
     const res = await ctx.db.patch(args.id, { coverImage: args.coverImage });
@@ -787,9 +787,9 @@ export const deleteById = mutation({
       throw new Error("Not found");
     }
 
-    if (existingDocument.userId !== userId) {
-      throw new Error("Unauthorized");
-    }
+    // if (existingDocument.userId !== userId) {
+    //   throw new Error("Unauthorized");
+    // }
     await ctx.db.patch(args.id, {
       coverImage: undefined,
     });
